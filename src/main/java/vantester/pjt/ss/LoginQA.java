@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class LoginAutomation {
+public class LoginQA {
      public void AutoLogin() throws InterruptedException {
         String pathWebDriver = "D:\\Auto\\Setup\\chromedriver-win64\\chromedriver.exe";
         System.setProperty("webdriver.chrome.driver",pathWebDriver);
