@@ -1,6 +1,5 @@
 package vantester.pjt.ss;
 
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ public class SearchFunction {
     static WebDriver driver;
    @BeforeEach
     public void Setup(String linkUrl) {
-        String pathWebDriver = "D:\\Auto\\Setup\\chromedriver-win64\\chromedriver.exe";
+        String pathWebDriver = "D:\\Auto Test\\Setup\\chromedriver-win64\\chromedriver.exe";
         System.setProperty("webdriver.chrome.driver",pathWebDriver);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -64,43 +63,51 @@ public class SearchFunction {
        arrayKeywords.add("Phone");
        arrayKeywords.add("Large phone");
        for (int i=0; i<arrayKeywords.size(); i++) {
-               //Click nút search
-               String locatorSearchButton = "//body/div[@id='wrap']/nav[@id='component-id']/div[1]/div[6]/div[1]";
-               WebElement clickOnSearch = driver.findElement(By.xpath(locatorSearchButton));
-               driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-               clickOnSearch.click();
-               //Thread.sleep(2000);
+           driver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
+           String locatorAcceptCookies = "//a[contains(text(),'CHẤP NHẬN')]";
+           Boolean isAcceptCookiesAppear = driver.findElements(By.xpath(locatorAcceptCookies)).size() > 0;
+           if(isAcceptCookiesAppear) {
+               WebElement clickOnAcceptCookies = driver.findElement(By.xpath(locatorAcceptCookies));
+               clickOnAcceptCookies.click();
+           };
 
-               //Nhập keywords
-               String locatorInputKeyword = "gnb-search-keyword";
-               WebElement searchKeywordInput = driver.findElement(By.id(locatorInputKeyword));
-               searchKeywordInput.sendKeys(arrayKeywords.get(i));
-               driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-               //Thread.sleep(2000);
+           //Click nút search
+           String locatorSearchButton = "//body/div[@id='wrap']/nav[@id='component-id']/div[1]/div[6]/div[1]";
+           WebElement clickOnSearch = driver.findElement(By.xpath(locatorSearchButton));
+           driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+           clickOnSearch.click();
+           //Thread.sleep(2000);
 
-               //Click button submit kết quả search
-               String locatorSubmitSearch = "//body/div[@id='wrap']/section[2]/div[3]/div[1]/form[1]/fieldset[1]/div[1]/button[3]";
-               WebElement clickSubmitSearch = driver.findElement(By.xpath(locatorSubmitSearch));
-               clickSubmitSearch.click();
-               driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-               //Thread.sleep(1000);
+           //Nhập keywords
+           String locatorInputKeyword = "gnb-search-keyword";
+           WebElement searchKeywordInput = driver.findElement(By.id(locatorInputKeyword));
+           searchKeywordInput.sendKeys(arrayKeywords.get(i));
+           driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+           //Thread.sleep(2000);
 
-               //Click sang tab Tất Cả
-               String locatorSwitchToAll = "//*[@id=\"result-list-container\"]/div[1]/div/ul/li[1]";
-               WebElement clickAll = driver.findElement(By.xpath(locatorSwitchToAll));
-               clickAll.click();
-               driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-               //Thread.sleep(2000);
+           //Click button submit kết quả search
+           String locatorSubmitSearch = "//body/div[@id='wrap']/section[2]/div[3]/div[1]/form[1]/fieldset[1]/div[1]/button[3]";
+           WebElement clickSubmitSearch = driver.findElement(By.xpath(locatorSubmitSearch));
+           clickSubmitSearch.click();
+           driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+           //Thread.sleep(1000);
 
-               //Chụp ảnh
-               TakeScreenshot takeScreenshot = new TakeScreenshot();
-               Thread.sleep(2000);
-               takeScreenshot.takeSnapShot(this.driver, "D:\\Screenshot\\"+arrayKeywords.get(i).toString()+"- VN (PC).png");
+           //Click sang tab Tất Cả
+           String locatorSwitchToAll = "//*[@id=\"result-list-container\"]/div[1]/div/ul/li[1]";
+           WebElement clickAll = driver.findElement(By.xpath(locatorSwitchToAll));
+           clickAll.click();
+           driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+           //Thread.sleep(2000);
 
-               driver.manage().window().setSize(new Dimension(390,844));
-               Thread.sleep(2000);
-               takeScreenshot.takeSnapShot(this.driver, "D:\\Screenshot\\"+arrayKeywords.get(i).toString()+"- VN (MO).png");
-               driver.manage().window().maximize();
+           //Chụp ảnh
+           TakeScreenshot takeScreenshot = new TakeScreenshot();
+           Thread.sleep(2000);
+           takeScreenshot.takeSnapShot(this.driver, "D:\\Screenshot\\"+arrayKeywords.get(i).toString()+"- VN (PC).png");
+
+           driver.manage().window().setSize(new Dimension(390,1200));
+           Thread.sleep(2000);
+           takeScreenshot.takeSnapShot(this.driver, "D:\\Screenshot\\"+arrayKeywords.get(i).toString()+"- VN (MO).png");
+           driver.manage().window().maximize();
        }
     }
 
